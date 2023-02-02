@@ -3,7 +3,7 @@ import * as ethers from 'ethers';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
 // Put the address of your AA factory
-const AA_FACTORY_ADDRESS = '<FACTORY-ADDRESS>';
+const AA_FACTORY_ADDRESS = '0x1864c48C099a3527cA28fd7b41d256cD41aaB397';
 
 export default async function (hre: HardhatRuntimeEnvironment) {
   const provider = new Provider('https://zksync2-testnet.zksync.dev');
@@ -98,4 +98,10 @@ export default async function (hre: HardhatRuntimeEnvironment) {
       multisigAddress
     )}`
   );
+
+  await hre.run("verify:verify", {
+    address: multisigAddress,
+    contract: "contracts/TwoUserMultisig.sol:TwoUserMultisig",
+    constructorArguments: [owner1.address, owner2.address],
+  });
 }
